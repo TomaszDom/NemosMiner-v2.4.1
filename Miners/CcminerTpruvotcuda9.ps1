@@ -4,7 +4,7 @@ $Path = ".\Bin\NVIDIA-TPruvotcuda9\ccminer.exe"
 $Uri = "https://github.com/tpruvot/ccminer/releases/download/2.2.4-tpruvot/ccminer-x86-2.2.4-cuda9.7z"
 
 $Commands = [PSCustomObject]@{
-    "phi" = " -d $SelGPUCC --api-remote" #Phi
+    #"phi" = " -d $SelGPUCC --api-remote" #Phi
     #"bitcore" = " -d $SelGPUCC" #Bitcore
     "jha" = " -d $SelGPUCC --api-remote" #Jha
     #"blake2s" = " -d $SelGPUCC" #Blake2s
@@ -46,7 +46,7 @@ $Commands | Get-Member -MemberType NoteProperty | Select -ExpandProperty Name | 
         Type = "NVIDIA"
         Path = $Path
         Arguments = "-a $_ -o stratum+tcp://$($Pools.(Get-Algorithm($_)).Host):$($Pools.(Get-Algorithm($_)).Port) -u $($Pools.(Get-Algorithm($_)).User) -p $($Pools.(Get-Algorithm($_)).Pass)$($Commands.$_)"
-        HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Week}
+        HashRates = [PSCustomObject]@{(Get-Algorithm($_)) = $Stats."$($Name)_$(Get-Algorithm($_))_HashRate".Live}
         API = "Ccminer"
         Port = 4068
         Wrap = $false

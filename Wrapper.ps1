@@ -24,7 +24,7 @@ if ($ArgumentList -ne "") {$Command += " $ArgumentList"}
 $PowerShell.AddScript("$Command 2>&1 | Write-Verbose -Verbose") | Out-Null
 $Result = $PowerShell.BeginInvoke()
 
-Write-Host "NemosMinerv2.4.1 Wrapper Started" -BackgroundColor Yellow -ForegroundColor Black
+Write-Host "NemosMinerv2.4.2 Wrapper Started" -BackgroundColor Yellow -ForegroundColor Black
 
 do {
     Start-Sleep 1
@@ -45,7 +45,7 @@ do {
             }
 
             $HashRate | Set-Content ".\PalginNeoHashrate.txt"
-        } elseif ($Line -like "*speed is*") {
+        } elseif ($Line -like "*overall speed is*") {
             $Words = $Line -split " "
             $HashRate = [Decimal]($Words -like "*H/s*" -replace ',', '' -replace "[^0-9.]",'' | Select-Object -Last 1)
 
@@ -54,7 +54,7 @@ do {
                 "mH/s" {$HashRate *= [Math]::Pow(1000, 2)}
                 "MH/s" {$HashRate *= [Math]::Pow(1000, 2)}
             }
-
+			$HashRate = [int]$HashRate
             $HashRate | Set-Content ".\PalginNeoHashrate.txt"
         }
 

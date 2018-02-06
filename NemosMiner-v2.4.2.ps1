@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory=$false)]
     [String]$UserName, 
     [Parameter(Mandatory=$false)]
-    [String]$WorkerName = "ID=NemosMiner-v2.4.1", 
+    [String]$WorkerName = "ID=NemosMiner-v2.4.2", 
     [Parameter(Mandatory=$false)]
     [Int]$API_ID = 0, 
     [Parameter(Mandatory=$false)]
@@ -14,7 +14,7 @@ param(
     [Parameter(Mandatory=$false)]
     [Int]$FirstInterval = 30, #seconds of the first cycle of activated or started first time miner
     [Parameter(Mandatory=$false)]
-    [Int]$StatsInterval = 240, #seconds of current active to gather hashrate if not gathered yet
+    [Int]$StatsInterval = 300, #seconds of current active to gather hashrate if not gathered yet
     [Parameter(Mandatory=$false)]
     [String]$Location = "US", #europe/us/asia
     [Parameter(Mandatory=$false)]
@@ -54,7 +54,7 @@ if($Proxy -eq ""){$PSDefaultParameterValues.Remove("*:Proxy")}
 else{$PSDefaultParameterValues["*:Proxy"] = $Proxy}
 . .\Include.ps1
 $DecayStart = Get-Date
-$DecayPeriod = 15 #seconds
+$DecayPeriod = 30 #seconds
 $DecayBase = 1-0.1 #decimal percentage
 $ActiveMinerPrograms = @()
 #Start the log
@@ -65,7 +65,7 @@ if(Test-Path "Stats"){Get-ChildItemContent "Stats" | ForEach {$Stat = Set-Stat $
 $LastDonated = (Get-Date).AddDays(-1).AddHours(1)
 $WalletDonate = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE"
 $UserNameDonate = "1QGADhdMRpp9Pk5u5zG1TrHKRrdK5R81TE"
-$WorkerNameDonate = "NemosMiner-v2.4.1"
+$WorkerNameDonate = "NemosMiner-v2.4.2"
 $WalletBackup = $Wallet
 $UserNameBackup = $UserName
 $WorkerNameBackup = $WorkerName
@@ -238,7 +238,7 @@ while($true)
                 Status = "Idle"
                 HashRate = 0
                 Benchmarked = 0
-                Hashrate_Gathered = $false
+                Hashrate_Gathered = ($_.HashRates.PSObject.Properties.Value -ne $null)
             }
         }
     }
